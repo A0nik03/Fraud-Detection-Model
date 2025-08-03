@@ -12,8 +12,6 @@ This project presents a robust pipeline for analyzing, processing, and classifyi
 ```
 .
 ├── Fraud_Detection.ipynb     # Jupyter notebook with EDA, preprocessing, training, and evaluation
-├── .gitattributes            # Tracks large files via Git LFS
-├── .gitignore                # Prevents sensitive or large files from being committed
 ├── README.md                 # Project overview and instructions
 └── data/
     └── Fraud.csv             # (Not included in repo - download instructions below)
@@ -35,32 +33,48 @@ This project presents a robust pipeline for analyzing, processing, and classifyi
 
 ## 📥 Download Dataset
 
-Upload your dataset to any of these:
-- [Google Drive](https://drive.google.com/)
-- [Kaggle Datasets](https://www.kaggle.com/)
-- [Dropbox](https://www.dropbox.com/)
+Upload your dataset to from here:
+- [Google Drive](https://drive.google.com/drive/folders/11TNTzTc9VmTLkgTp5ClMFkEfCPXAaA_V?usp=sharing)
 
 Then use the following Python script to download it automatically (example for Google Drive):
 
-### ➤ download_data.py
+### ➤ Features
 
-```python
-import gdown
+- **`step`**  
+  Represents a unit of time, where **1 step = 1 hour**. The dataset spans **744 steps** (i.e., 30 days).
 
-url = 'https://drive.google.com/uc?id=YOUR_FILE_ID'
-output = 'data/Fraud.csv'
+- **`type`**  
+  Type of transaction. It can be one of the following:  
+  `CASH-IN`, `CASH-OUT`, `DEBIT`, `PAYMENT`, or `TRANSFER`.
 
-gdown.download(url, output, quiet=False)
-```
+- **`amount`**  
+  The value of the transaction, measured in local currency.
 
-To run:
-```bash
-pip install gdown
-python download_data.py
-```
+- **`nameOrig`**  
+  The ID of the person or account that **initiated** the transaction.
 
-> 📁 After download, ensure the file is placed inside the `data/` directory.
+- **`oldbalanceOrg`**  
+  The sender's account balance **before** the transaction took place.
 
+- **`newbalanceOrig`**  
+  The sender's account balance **after** the transaction.
+
+- **`nameDest`**  
+  The ID of the person or account **receiving** the transaction.
+
+- **`oldbalanceDest`**  
+  The recipient’s account balance **before** the transaction.  
+  *Note: For recipients whose IDs start with "M" (merchants), this value may be unavailable.*
+
+- **`newbalanceDest`**  
+  The recipient’s account balance **after** the transaction.  
+  *Again, may be missing for merchants.*
+
+- **`isFraud`**  
+  Indicates whether the transaction is **fraudulent (`1`)** or **legitimate (`0`)**. Fraudulent activity often involves unauthorized transfers and cash-outs.
+
+- **`isFlaggedFraud`**  
+  Flags transactions that **violate fraud detection rules** — in this dataset, any `TRANSFER` over **200,000** units is flagged as suspicious.
 ---
 
 ## ⚙️ Tools & Technologies
@@ -71,7 +85,6 @@ python download_data.py
 - Matplotlib, Seaborn
 - Scikit-learn
 - Git + GitHub
-- Git LFS (for large file support)
 
 ---
 
@@ -135,34 +148,6 @@ python download_data.py
 - 📈 Feature importance chart from Random Forest  
 - 🔍 ROC-AUC for model comparison  
 - 📊 Confusion matrix heatmaps
-
-(*Screenshots or plots can be added if you'd like to enhance the README visually.*)
-
----
-
-## 🧼 Git LFS Instructions (Optional)
-
-If you plan to track large files using Git LFS:
-
-1. Install Git LFS:
-   ```bash
-   git lfs install
-   ```
-
-2. Track the file:
-   ```bash
-   git lfs track "data/Fraud.csv"
-   ```
-
-3. Add, commit, and push:
-   ```bash
-   git add .gitattributes data/Fraud.csv
-   git commit -m "Add large dataset via Git LFS"
-   git push origin main
-   ```
-
-> ⚠️ Make sure to remove previous versions of large files from commit history if pushing fails.
-
 ---
 
 ## 🧑‍💻 Author
